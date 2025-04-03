@@ -11,29 +11,34 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Table(name = "orders")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatus orderStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date createdAt;
 
     public Order() {
         this.createdAt = new Date();
+        this.orderStatus = OrderStatus.PENDING;
     }
 
     public Order(User user, List<OrderItem> orderItems, BigDecimal totalPrice) {
@@ -41,6 +46,7 @@ public class Order {
         this.orderItems = orderItems;
         this.totalPrice = totalPrice;
         this.createdAt = new Date();
+        this.orderStatus = OrderStatus.PENDING;
     }
 
     public void placeOrder() {
@@ -68,5 +74,4 @@ public class Order {
         }
         this.totalPrice = total;
     }
-
 }

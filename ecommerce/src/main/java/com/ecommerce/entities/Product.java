@@ -1,42 +1,49 @@
 package com.ecommerce.entities;
 
-import jakarta.persistence.Entity;
-
-import java.math.BigDecimal;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(precision = 10, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false)
     private String category;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "authorship_id", nullable = false)
     private User authorship;
+
     private String imageUrl;
 
+    @Column(precision = 3, scale = 2)
     private BigDecimal rating;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date createAt;
 
     public Product() {
-        this.createAt = new Date(); // Ensure createAt is initialized at the time of object creation
+        this.createAt = new Date();
     }
 
     public Product(String name, String description, BigDecimal price, String category,
@@ -50,5 +57,4 @@ public class Product {
         this.rating = rating;
         this.createAt = new Date();
     }
-
 }

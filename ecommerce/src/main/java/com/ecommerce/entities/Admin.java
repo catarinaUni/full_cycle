@@ -1,9 +1,15 @@
 package com.ecommerce.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@Table(name = "admins")
 public class Admin {
 
     @Id
@@ -20,10 +26,10 @@ public class Admin {
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @Column(nullable = false, updatable = false)
+    private Date createdAt = new Date();
 
     public Admin() {
-        this.createdAt = new Date();
     }
 
     public Admin(String name, String email, String password) {
@@ -31,45 +37,5 @@ public class Admin {
         this.email = email;
         this.password = password;
         this.createdAt = new Date();
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 }

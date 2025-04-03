@@ -9,20 +9,28 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(nullable = false)
     private Integer quantity;
 
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
+
+    public OrderItem() {}
 
     public OrderItem(Order order, Product product, Integer quantity, BigDecimal price) {
         this.order = order;
@@ -30,5 +38,4 @@ public class OrderItem {
         this.quantity = quantity;
         this.price = price;
     }
-
 }

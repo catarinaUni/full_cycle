@@ -10,15 +10,18 @@ import java.util.Date;
 @Entity
 @Setter
 @Getter
+@Table(name = "payments")
 public class Payment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(optional = false)
+    @JoinColumn(name = "order_id", nullable = false, unique = true)
     private Order order;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
     @Column(nullable = false)
@@ -30,6 +33,7 @@ public class Payment {
     private PaymentMethod paymentMethod;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date paymentDate;
 
     public Payment() {

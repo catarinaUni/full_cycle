@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "carts")
 @Getter
 @Setter
+@Table(name = "carts")
 public class Cart {
 
     @Id

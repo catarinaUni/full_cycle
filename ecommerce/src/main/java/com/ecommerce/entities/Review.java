@@ -9,17 +9,18 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@Table(name = "reviews")
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -30,6 +31,7 @@ public class Review {
     private String comment;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
     private Date createdAt;
 
     public Review() {
@@ -54,5 +56,4 @@ public class Review {
         return String.format("Usuário: %s | Produto: %s | Nota: %d | Comentário: %s | Criado em: %s",
                 user.getName(), product.getName(), rating, comment, createdAt.toString());
     }
-
 }
